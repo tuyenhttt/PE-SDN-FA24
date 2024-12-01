@@ -27,9 +27,15 @@ app.get("/info", (req, res) => {
   res.json({ data: myProfile });
 });
 
-app.get("/age", (req, res) => {
-  const myAge = {
-    age: 21,
-  };
-  res.json({ data: myAge });
+app.post("/age", (req, res) => {
+  const { birthYear } = req.body;
+
+  if (!birthYear || isNaN(birthYear)) {
+    return res.status(400).json({ error: "Please provide a valid birth year" });
+  }
+
+  const currentYear = new Date().getFullYear();
+  const age = currentYear - birthYear;
+
+  res.json({ age });
 });
